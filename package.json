@@ -1,0 +1,15 @@
+{
+  "name": "osb-film-tv-guide",
+  "version": "0.0.1",
+  "dependencies": {
+    "grunt-cli": "^0.1.13",
+    "webcomponents.js": "^0.7.20"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.4.0",
+    "grunt": "^0.4.5",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-sass": "^1.1.0",
+    "grunt-serve": "^0.1.6"
+  }
+}

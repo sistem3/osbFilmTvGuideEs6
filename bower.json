@@ -1,0 +1,25 @@
+{
+  "name": "osb-film-tv-guide",
+  "version": "0.0.1",
+  "authors": [
+    "Ben Burton <sistematic3@yahoo.co.uk>"
+  ],
+  "description": "web component for displaying local weather",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "weather-icons": "~2.0.10",
+    "es6-promise": "~3.0.2",
+    "fetch": "~0.10.1"
+  }
+}
