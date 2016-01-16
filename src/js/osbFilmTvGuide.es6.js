@@ -8,6 +8,9 @@
     	    <header>
     	        <h1>TV/Movie Guide</h1>
                 <p>Powered by TMDb</p>
+                <nav>
+                    <ul></ul>
+                </nav>
     	    </header>
             <section>
                 <ul class="feed-list"></ul>
@@ -19,17 +22,23 @@
             this.createShadowRoot().innerHTML = template;
             this.baseUrl = 'https://api.themoviedb.org/3/';
             this.apiKey = '892ae99b0451fed76a0ece0a8d0c1414';
+            this.section = 'movie';
+            this.searchTerm = 'popular';
             this.$holder = this.shadowRoot.querySelector('.osb-film-tv-guide-holder');
+            this.getData(this.section, this.searchTerm);
         };
 
         attachedCallback() {};
 
-        attributeChangedCallback(attrName, oldVal, newVal) {};
+        attributeChangedCallback(attrName, oldVal, newVal) {
+            console.log(attrName);
+            console.log(newVal);
+        };
 
         getData(section, searchTerm) {
-            var holder = this;
             var base = this.baseUrl;
             var apiKey = this.apiKey;
+            var holder = this;
             fetch(base + section + '/' + searchTerm + '&api_key=' + apiKey)
                 .then(function(response) {
                     //console.log('Location Success');
@@ -38,8 +47,9 @@
                         return;
                     }
                     response.json().then(function(data) {
-                        /*var location = data.results[0].address_components[3].long_name;
-                        return holder.setAttribute('location', location);*/
+                        console.log(data);
+                        var listings = JSON.stringify(data.results);
+                        return holder.setAttribute('listings', listings);
                     });
                 })
                 .catch(function(err) {
