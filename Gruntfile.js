@@ -9,7 +9,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'src/css/osb-film-tv-guide.css': 'src/scss/osb-film-tv-guide.scss'
+                    'src/css/osbFilmTvGuide.css': 'src/scss/osbFilmTvGuide.scss'
                 }
             }
         },
