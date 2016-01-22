@@ -2,11 +2,14 @@
   width: 100%;
   min-height: 90px;
   display: block;
+  position: absolute;
+  top: 50%;
 
   div {
     width: 70px;
     text-align: center;
     margin: 0 auto;
+    color: $color-white;
 
     i {
       font-size: 30px;

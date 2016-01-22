@@ -1,6 +1,11 @@
 .filmTvGuide {
   width: 100%; }
 
+.filmTvGuide h1, .filmTvGuide h2, .filmTvGuide h3, .filmTvGuide h4, .filmTvGuide h5, .filmTvGuide p {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  color: #000; }
+
 .filmTvGuide .btn-primary {
   background-color: #0285E3;
   background-image: none;
@@ -19,11 +24,14 @@
 #filmLoader {
   width: 100%;
   min-height: 90px;
-  display: block; }
+  display: block;
+  position: absolute;
+  top: 50%; }
   #filmLoader div {
     width: 70px;
     text-align: center;
-    margin: 0 auto; }
+    margin: 0 auto;
+    color: #FFF; }
     #filmLoader div i {
       font-size: 30px; }
 
@@ -49,8 +57,8 @@
     color: #3B62FF; }
   .filmTvGuide__listings > ul {
     list-style: none;
-    margin: 0;
     padding: 0;
+    margin: 0;
     display: -webkit-flex;
     display: flex;
     -webkit-flex-direction: row;
@@ -60,9 +68,17 @@
   .filmTvGuide__listings > ul li {
     position: relative;
     box-sizing: border-box;
-    -webkit-flex: 1 1 33.333%;
-    flex: 1 1 33.333%;
+    -webkit-flex: 1 1 25%;
+    flex: 1 1 25%;
     background-color: #000; }
+    @media (max-width: 990px) {
+      .filmTvGuide__listings > ul li {
+        -webkit-flex: 1 1 33.333%;
+        flex: 1 1 33.333%; } }
+    @media (max-width: 640px) {
+      .filmTvGuide__listings > ul li {
+        -webkit-flex: 1 1 50%;
+        flex: 1 1 50%; } }
     .filmTvGuide__listings > ul li img {
       width: 100%;
       height: auto; }
