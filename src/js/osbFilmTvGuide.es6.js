@@ -64,8 +64,8 @@
             }
 
             var watchedBtns = this.$holder.getElementsByClassName('favouriteBtn');
-            for (var i = 0; i < watchedBtns.length; i++) {
-                watchedBtns[i].addEventListener('click', event => this.setWatched(event));
+            for (var j = 0; j < watchedBtns.length; j++) {
+                watchedBtns[j].addEventListener('click', event => this.setWatched(event));
             }
         };
 
