@@ -44,6 +44,7 @@
         };
 
         renderListings(listing) {
+            // Get template feed list and loop through feed
             var templateHolder = this.$holder.querySelector('.feed-list');
             listing.forEach(function(element, index, array) {
                 //console.log(element);
@@ -56,11 +57,15 @@
                         '<img src="http://image.tmdb.org/t/p/w500'+ element.poster_path + '" />' +
                     '</li>';
             });
-            // Not sure if I am feeling this loop 0_o
+            // Not sure if I am feeling this loop for click function 0_o
             var favBtns = this.$holder.getElementsByClassName('favouriteBtn');
             for (var i = 0; i < favBtns.length; i++) {
-                //console.log(favBtns[i]);
                 favBtns[i].addEventListener('click', event => this.setFavourite(event));
+            }
+
+            var watchedBtns = this.$holder.getElementsByClassName('favouriteBtn');
+            for (var i = 0; i < watchedBtns.length; i++) {
+                watchedBtns[i].addEventListener('click', event => this.setWatched(event));
             }
         };
 
@@ -86,8 +91,39 @@
         };
 
         setFavourite(id) {
-            this.user.favourites.push({'section': this.section,'id': id.path[2].id});
-            localStorage.setItem(this.storagePrefix, JSON.stringify(this.user));
+            this.user = JSON.parse(localStorage.getItem('osbFilmTvGuide.user'));
+            if (this.user.favourites) {
+                var exists = false;
+                this.user.favourites.forEach(function(element, index, array) {
+                    if(element.id == id.path[2].id) {
+                        console.log('Exists');
+                        exists = true;
+                    }
+                });
+                // If the id doesn't exist add
+                if (!exists) {
+                    this.user.favourites.push({'section': this.section,'id': id.path[2].id});
+                    localStorage.setItem(this.storagePrefix, JSON.stringify(this.user));
+                }
+            }
+        };
+
+        setWatched(id) {
+            this.user = JSON.parse(localStorage.getItem('osbFilmTvGuide.user'));
+            if (this.user.watched) {
+                var exists = false;
+                this.user.watched.forEach(function(element, index, array) {
+                    if(element.id == id.path[2].id) {
+                        console.log('Exists');
+                        exists = true;
+                    }
+                });
+                // If the id doesn't exist add
+                if (!exists) {
+                    this.user.watched.push({'section': this.section,'id': id.path[2].id});
+                    localStorage.setItem(this.storagePrefix, JSON.stringify(this.user));
+                }
+            }
         };
     }
     // Register Element
