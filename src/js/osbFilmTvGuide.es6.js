@@ -23,8 +23,12 @@
     class osbFilmTvGuide extends HTMLElement {
         createdCallback() {
             this.createShadowRoot().innerHTML = template;
+            this.storagePrefix = 'osbFilmTvGuide.user';
             this.baseUrl = 'https://api.themoviedb.org/3/';
             this.apiKey = '892ae99b0451fed76a0ece0a8d0c1414';
+            this.user = {};
+            this.user.favourites = [];
+            this.user.watched = [];
             this.section = 'movie';
             this.searchTerm = 'popular';
             this.$holder = this.shadowRoot.querySelector('.filmTvGuide__listings');
@@ -34,21 +38,30 @@
         attachedCallback() {};
 
         attributeChangedCallback(attrName, oldVal, newVal) {
-            /*console.log(attrName);
-            console.log(JSON.parse(newVal));*/
             if (attrName === 'listings') {
                 this.renderListings(JSON.parse(newVal));
             }
         };
 
         renderListings(listing) {
-            console.log(listing);
             var templateHolder = this.$holder.querySelector('.feed-list');
             listing.forEach(function(element, index, array) {
-                console.log(element);
+                //console.log(element);
                 templateHolder.innerHTML +=
-                    '<li><img src="http://image.tmdb.org/t/p/w500'+ element.poster_path + '" /></li>';
+                    '<li>' +
+                        '<div id="' + element.id + '" class="filmTvGuide__listings--nav">' +
+                        '<a title="More Info" class="infoBtn"><i class="fa fa-info-circle"></i></a>' +
+                        '<a title="Add to Watched" class="watchedBtn"><i class="fa fa-eye"></i></a>' +
+                        '<a title="Add to Favourite" class="favouriteBtn"><i class="fa fa-heart"></i></a></div>' +
+                        '<img src="http://image.tmdb.org/t/p/w500'+ element.poster_path + '" />' +
+                    '</li>';
             });
+            // Not sure if I am feeling this loop 0_o
+            var favBtns = this.$holder.getElementsByClassName('favouriteBtn');
+            for (var i = 0; i < favBtns.length; i++) {
+                //console.log(favBtns[i]);
+                favBtns[i].addEventListener('click', event => this.setFavourite(event));
+            }
         };
 
         getData(section, searchTerm) {
@@ -57,14 +70,12 @@
             var holder = this;
             fetch(base + section + '/' + searchTerm + '?api_key=' + apiKey)
                 .then(function(response) {
-                    console.log(response);
-                    //console.log('Location Success');
                     if (response.status !== 200) {
                         console.log('Looks like there was a problem. Status Code: ' + response.status);
                         return;
                     }
                     response.json().then(function(data) {
-                        console.log(data);
+                        //console.log(data);
                         var listings = JSON.stringify(data.results);
                         return holder.setAttribute('listings', listings);
                     });
@@ -72,6 +83,11 @@
                 .catch(function(err) {
                     console.log('Failed');
                 });
+        };
+
+        setFavourite(id) {
+            this.user.favourites.push({'section': this.section,'id': id.path[2].id});
+            localStorage.setItem(this.storagePrefix, JSON.stringify(this.user));
         };
     }
     // Register Element
