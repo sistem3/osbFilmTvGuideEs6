@@ -114,7 +114,8 @@
   top: 0;
   left: 0;
   background: #000;
-  overflow-y: scroll; }
+  overflow-y: scroll;
+  display: none; }
   .filmTvGuide__modal .img-responsive {
     margin-top: 20px; }
   .filmTvGuide__modal--closeBtn {

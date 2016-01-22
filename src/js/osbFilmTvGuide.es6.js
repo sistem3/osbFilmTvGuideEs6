@@ -18,6 +18,9 @@
             <section class="filmTvGuide__listings">
                 <ul class="feed-list"></ul>
             </section>
+            <section class="filmTvGuide__modal">
+
+            </section>
     	</main>
     	`;
     class osbFilmTvGuide extends HTMLElement {
