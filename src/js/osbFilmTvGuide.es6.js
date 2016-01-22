@@ -54,20 +54,27 @@
 
         renderListings(listing) {
             var user = JSON.parse(localStorage.getItem('osbFilmTvGuide.user'));
-            console.log(user.favourites);
             // Get template feed list and loop through feed
             var templateHolder = this.$holder.querySelector('.feed-list');
             listing.forEach(function(element, index, array) {
-                console.log(element);
+                //console.log(element);
                 if (user.favourites) {
                     element.favActive = '';
-                    console.log('Add favourites');
+                    //console.log('Add favourites');
                     user.favourites.forEach(function(index, value) {
-                        console.log(index.id);
-                        console.log(element.id);
-                        if (index.id === element.id) {
+                        if (index.id == element.id) {
                             console.log('Add fav');
                             element.favActive = 'favouriteActive';
+                        }
+                    });
+                }
+                if (user.watched) {
+                    element.watchedActive = '';
+                    //console.log('Add watched');
+                    user.watched.forEach(function(index, value) {
+                        if (index.id == element.id) {
+                            console.log('Add watched');
+                            element.watchedActive = 'watchedActive';
                         }
                     });
                 }
@@ -75,7 +82,7 @@
                     '<li>' +
                         '<div id="' + element.id + '" class="filmTvGuide__listings--nav">' +
                         '<a title="More Info" class="infoBtn"><i class="fa fa-info-circle"></i></a>' +
-                        '<a title="Add to Watched" class="watchedBtn"><i class="fa fa-eye"></i></a>' +
+                        '<a title="Add to Watched" class="watchedBtn ' + element.watchedActive + '"><i class="fa fa-eye"></i></a>' +
                         '<a title="Add to Favourite" class="favouriteBtn ' + element.favActive + '"><i class="fa fa-heart"></i></a></div>' +
                         '<img src="http://image.tmdb.org/t/p/w500'+ element.poster_path + '" />' +
                     '</li>';
