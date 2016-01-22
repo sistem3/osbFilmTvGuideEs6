@@ -35,6 +35,12 @@
             this.section = 'movie';
             this.searchTerm = 'popular';
             this.$holder = this.shadowRoot.querySelector('.filmTvGuide__listings');
+
+            var userDetails = localStorage.getItem('osbFilmTvGuide.user');
+            if (!userDetails) {
+                localStorage.setItem(this.storagePrefix, JSON.stringify(this.user));
+            }
+
             this.getData(this.section, this.searchTerm);
         };
 
@@ -47,16 +53,30 @@
         };
 
         renderListings(listing) {
+            var user = JSON.parse(localStorage.getItem('osbFilmTvGuide.user'));
+            console.log(user.favourites);
             // Get template feed list and loop through feed
             var templateHolder = this.$holder.querySelector('.feed-list');
             listing.forEach(function(element, index, array) {
-                //console.log(element);
+                console.log(element);
+                if (user.favourites) {
+                    element.favActive = '';
+                    console.log('Add favourites');
+                    user.favourites.forEach(function(index, value) {
+                        console.log(index.id);
+                        console.log(element.id);
+                        if (index.id === element.id) {
+                            console.log('Add fav');
+                            element.favActive = 'favouriteActive';
+                        }
+                    });
+                }
                 templateHolder.innerHTML +=
                     '<li>' +
                         '<div id="' + element.id + '" class="filmTvGuide__listings--nav">' +
                         '<a title="More Info" class="infoBtn"><i class="fa fa-info-circle"></i></a>' +
                         '<a title="Add to Watched" class="watchedBtn"><i class="fa fa-eye"></i></a>' +
-                        '<a title="Add to Favourite" class="favouriteBtn"><i class="fa fa-heart"></i></a></div>' +
+                        '<a title="Add to Favourite" class="favouriteBtn ' + element.favActive + '"><i class="fa fa-heart"></i></a></div>' +
                         '<img src="http://image.tmdb.org/t/p/w500'+ element.poster_path + '" />' +
                     '</li>';
             });
@@ -66,7 +86,7 @@
                 favBtns[i].addEventListener('click', event => this.setFavourite(event));
             }
 
-            var watchedBtns = this.$holder.getElementsByClassName('favouriteBtn');
+            var watchedBtns = this.$holder.getElementsByClassName('watchedBtn');
             for (var j = 0; j < watchedBtns.length; j++) {
                 watchedBtns[j].addEventListener('click', event => this.setWatched(event));
             }
