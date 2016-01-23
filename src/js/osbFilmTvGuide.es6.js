@@ -5,10 +5,12 @@
     	<style>
     	    @import url('https://fonts.googleapis.com/css?family=Roboto:400,300');
             @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css');
+            @import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css');
+            @import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css');
             @import '/src/css/osbFilmTvGuide.css';
     	</style>
     	<main class="filmTvGuide">
-    	    <header>
+    	    <header class="container">
     	        <h1>TV/Movie Guide</h1>
                 <p>Powered by TMDb</p>
                 <nav>
@@ -117,6 +119,14 @@
                     response.json().then(function(data) {
                         console.log(data);
                         holder.$modal.setAttribute('class', 'filmTvGuide__modal show');
+                        holder.$modal.innerHTML +=
+                            '<img src="http://image.tmdb.org/t/p/w1000' + data.backdrop_path + '" title="" />' +
+                            '<div class="filmTvGuide__modal--content img-rounded">' +
+                                '<div class="filmTvGuide__modal--closeBtn"><i class="fa fa-close"></i></div>' +
+                                '<h1>' + data.title + '</h1>' +
+                                '<h4>' + data.tagline + '</h4>' +
+                                '<p>' + data.overview + '</p>' +
+                            '</div>';
                     });
                 })
                 .catch(function(err) {
