@@ -7,6 +7,10 @@
   background: $color-black;
   overflow-y: scroll;
   display: none;
+  
+  &.show {
+    display: block !important;
+  }
 
   .img-responsive {
     margin-top: 20px;

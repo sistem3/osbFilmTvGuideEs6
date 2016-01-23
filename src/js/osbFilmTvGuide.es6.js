@@ -18,9 +18,7 @@
             <section class="filmTvGuide__listings">
                 <ul class="feed-list"></ul>
             </section>
-            <section class="filmTvGuide__modal">
-
-            </section>
+            <section class="filmTvGuide__modal"></section>
     	</main>
     	`;
     class osbFilmTvGuide extends HTMLElement {
@@ -35,6 +33,7 @@
             this.section = 'movie';
             this.searchTerm = 'popular';
             this.$holder = this.shadowRoot.querySelector('.filmTvGuide__listings');
+            this.$modal = this.shadowRoot.querySelector('.filmTvGuide__modal');
 
             var userDetails = localStorage.getItem('osbFilmTvGuide.user');
             if (!userDetails) {
@@ -97,6 +96,32 @@
             for (var j = 0; j < watchedBtns.length; j++) {
                 watchedBtns[j].addEventListener('click', event => this.setWatched(event));
             }
+
+            var infoBtns = this.$holder.getElementsByClassName('infoBtn');
+            for (var k = 0; k < watchedBtns.length; k++) {
+                infoBtns[k].addEventListener('click', event => this.getDetails(event));
+            }
+        };
+
+        getDetails(id) {
+            var base = this.baseUrl;
+            var apiKey = this.apiKey;
+            var section = this.section;
+            var holder = this;
+            fetch(base + section + '/' + id.path[2].id + '?api_key=' + apiKey)
+                .then(function(response) {
+                    if (response.status !== 200) {
+                        console.log('Looks like there was a problem. Status Code: ' + response.status);
+                        return;
+                    }
+                    response.json().then(function(data) {
+                        console.log(data);
+                        holder.$modal.setAttribute('class', 'filmTvGuide__modal show');
+                    });
+                })
+                .catch(function(err) {
+                    console.log('Failed');
+                });
         };
 
         getData(section, searchTerm) {
