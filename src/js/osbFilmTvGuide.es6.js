@@ -64,7 +64,6 @@
                     //console.log('Add favourites');
                     user.favourites.forEach(function(index, value) {
                         if (index.id == element.id) {
-                            console.log('Add fav');
                             element.favActive = 'favouriteActive';
                         }
                     });
@@ -74,7 +73,6 @@
                     //console.log('Add watched');
                     user.watched.forEach(function(index, value) {
                         if (index.id == element.id) {
-                            console.log('Add watched');
                             element.watchedActive = 'watchedActive';
                         }
                     });
@@ -105,6 +103,11 @@
             }
         };
 
+        closeModal() {
+            console.log('Close modal');
+            this.$modal.setAttribute('class', 'filmTvGuide__modal');
+        };
+
         getDetails(id) {
             var base = this.baseUrl;
             var apiKey = this.apiKey;
@@ -117,9 +120,8 @@
                         return;
                     }
                     response.json().then(function(data) {
-                        console.log(data);
                         holder.$modal.setAttribute('class', 'filmTvGuide__modal show');
-                        holder.$modal.innerHTML +=
+                        holder.$modal.innerHTML =
                             '<img src="http://image.tmdb.org/t/p/w1000' + data.backdrop_path + '" title="" />' +
                             '<div class="filmTvGuide__modal--content img-rounded">' +
                                 '<div class="filmTvGuide__modal--closeBtn"><i class="fa fa-close"></i></div>' +
@@ -127,6 +129,8 @@
                                 '<h4>' + data.tagline + '</h4>' +
                                 '<p>' + data.overview + '</p>' +
                             '</div>';
+
+                        holder.$modal.querySelector('.filmTvGuide__modal--closeBtn').addEventListener('click', event => holder.closeModal());
                     });
                 })
                 .catch(function(err) {
@@ -161,7 +165,6 @@
                 var exists = false;
                 this.user.favourites.forEach(function(element, index, array) {
                     if(element.id == id.path[2].id) {
-                        console.log('Exists');
                         exists = true;
                     }
                 });
@@ -179,7 +182,6 @@
                 var exists = false;
                 this.user.watched.forEach(function(element, index, array) {
                     if(element.id == id.path[2].id) {
-                        console.log('Exists');
                         exists = true;
                     }
                 });
