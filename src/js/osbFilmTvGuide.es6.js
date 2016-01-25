@@ -14,7 +14,7 @@
     	        <h1>TV/Movie Guide</h1>
                 <p>Powered by TMDb</p>
                 <nav>
-                    <ul></ul>
+                    <ul class="list-unstyled list-inline main-nav-list"></ul>
                 </nav>
     	    </header>
             <section class="filmTvGuide__listings">
@@ -32,14 +32,37 @@
             this.user = {};
             this.user.favourites = [];
             this.user.watched = [];
+            this.sections = [
+                {name: 'Popular movies', section: 'movie', searchTerm: 'popular', icon: 'fa-film'},
+                {name: 'Upcoming Movies', section: 'movie', searchTerm: 'upcoming', icon: 'fa-film'},
+                {name: 'Top Rated Movies', section: 'movie', searchTerm: 'top_rated', icon: 'fa-film'},
+                {name: 'Popular TV Shows', section: 'tv', searchTerm: 'popular', icon: 'fa-desktop'},
+                {name: 'Top Rated TV Shows', section: 'tv', searchTerm: 'top_rated', icon: 'fa-desktop'}
+            ];
             this.section = 'movie';
             this.searchTerm = 'popular';
             this.$holder = this.shadowRoot.querySelector('.filmTvGuide__listings');
             this.$modal = this.shadowRoot.querySelector('.filmTvGuide__modal');
+            this.$mainNav = this.shadowRoot.querySelector('.main-nav-list');
 
             var userDetails = localStorage.getItem('osbFilmTvGuide.user');
             if (!userDetails) {
                 localStorage.setItem(this.storagePrefix, JSON.stringify(this.user));
+            }
+
+            var mainNavHolder = this.$mainNav;
+            this.sections.forEach(function(element) {
+                mainNavHolder.innerHTML +=
+                    '<li>' +
+                        '<button class="btn btn-primary" data-section="' + element.section + '" data-search-term="' + element.searchTerm + '">' +
+                            element.name + ' <i class="fa ' + element.icon + '"></i>' +
+                        '</button>' +
+                    '</li>';
+            });
+
+            var mainNavBtns = this.$mainNav.getElementsByClassName('btn');
+            for (var i = 0; i < mainNavBtns.length; i++) {
+                mainNavBtns[i].addEventListener('click', event => this.getSection(event));
             }
 
             this.getData(this.section, this.searchTerm);
@@ -101,6 +124,18 @@
             for (var k = 0; k < watchedBtns.length; k++) {
                 infoBtns[k].addEventListener('click', event => this.getDetails(event));
             }
+
+            var controller = new ScrollMagic.Controller();
+
+            var scene = new ScrollMagic.Scene({triggerElement: '.filmTvGuide__listings #filmLoader', triggerHook: 'onEnter'})
+                .addTo(controller)
+                .on('enter', function (e) {
+                    /*if (!element.find('#filmLoader').hasClass('active')) {
+                        element.find('#filmLoader').addClass('active');
+                        $scope.filmTvGuide.getMoreData();
+                    }*/
+                });
+            scene.update();
         };
 
         closeModal() {
@@ -142,6 +177,13 @@
                 .catch(function(err) {
                     console.log('Failed');
                 });
+        };
+
+        getSection(id) {
+            var section = id.path[0].getAttribute('data-section');
+            var searchTerm = id.path[0].getAttribute('data-search-term');
+            this.$holder.querySelector('.feed-list').innerHTML = '';
+            this.getData(section, searchTerm);
         };
 
         getData(section, searchTerm) {
