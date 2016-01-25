@@ -125,9 +125,15 @@
                             '<img src="http://image.tmdb.org/t/p/w1000' + data.backdrop_path + '" title="" />' +
                             '<div class="filmTvGuide__modal--content img-rounded">' +
                                 '<div class="filmTvGuide__modal--closeBtn"><i class="fa fa-close"></i></div>' +
-                                '<h1>' + data.title + '</h1>' +
-                                '<h4>' + data.tagline + '</h4>' +
-                                '<p>' + data.overview + '</p>' +
+                                '<div class="col-md-8">' +
+                                    '<h1>' + data.title + '</h1>' +
+                                    '<h4>' + data.tagline + '</h4>' +
+                                    '<p>' + data.overview + '</p>' +
+                                    '<p>Status: ' + data.status + '</p>' +
+                                '</div>' +
+                                '<div class="col-md-4">' +
+                                    '<img src="http://image.tmdb.org/t/p/w500' + data.poster_path + '" class="img-responsive" title="' + data.title + '" />' +
+                                '</div>' +
                             '</div>';
 
                         holder.$modal.querySelector('.filmTvGuide__modal--closeBtn').addEventListener('click', event => holder.closeModal());
