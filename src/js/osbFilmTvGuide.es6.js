@@ -19,6 +19,12 @@
     	    </header>
             <section class="filmTvGuide__listings">
                 <ul class="feed-list"></ul>
+                <div id="filmLoader">
+                    <div>
+                        <i class="fa fa-spinner fa-spin"></i>
+                        <p>Loading...</p>
+                    </div>
+                </div>
             </section>
             <section class="filmTvGuide__modal"></section>
     	</main>
@@ -79,7 +85,7 @@
         renderListings(listing) {
             var user = JSON.parse(localStorage.getItem('osbFilmTvGuide.user'));
             // Get template feed list and loop through feed
-            var templateHolder = this.$holder.querySelector('.feed-list');
+            var templateHolder = this.$holder;
             listing.forEach(function(element, index, array) {
                 //console.log(element);
                 if (user.favourites) {
@@ -100,13 +106,13 @@
                         }
                     });
                 }
-                templateHolder.innerHTML +=
+                templateHolder.querySelector('.feed-list').innerHTML +=
                     '<li>' +
                         '<div id="' + element.id + '" class="filmTvGuide__listings--nav">' +
                         '<a title="More Info" class="infoBtn"><i class="fa fa-info-circle"></i></a>' +
                         '<a title="Add to Watched" class="watchedBtn ' + element.watchedActive + '"><i class="fa fa-eye"></i></a>' +
                         '<a title="Add to Favourite" class="favouriteBtn ' + element.favActive + '"><i class="fa fa-heart"></i></a></div>' +
-                        '<img src="http://image.tmdb.org/t/p/w500'+ element.poster_path + '" />' +
+                        '<img src="http://image.tmdb.org/t/p/w500'+ element.poster_path + '" class="img-responsive" />' +
                     '</li>';
             });
             // Not sure if I am feeling this loop for click function 0_o
@@ -125,17 +131,20 @@
                 infoBtns[k].addEventListener('click', event => this.getDetails(event));
             }
 
-            var controller = new ScrollMagic.Controller();
-
-            var scene = new ScrollMagic.Scene({triggerElement: '.filmTvGuide__listings #filmLoader', triggerHook: 'onEnter'})
-                .addTo(controller)
-                .on('enter', function (e) {
-                    /*if (!element.find('#filmLoader').hasClass('active')) {
-                        element.find('#filmLoader').addClass('active');
-                        $scope.filmTvGuide.getMoreData();
-                    }*/
-                });
-            scene.update();
+            setTimeout(function() {
+                var controller = new ScrollMagic.Controller();
+                var scene = new ScrollMagic.Scene({triggerElement: '#filmLoader', triggerHook: 'onEnter'})
+                    .addTo(controller)
+                    .on('enter', function (e) {
+                        console.log(e);
+                        if (templateHolder.querySelector('#filmLoader').className.indexOf('active') == -1) {
+                            /*element.find('#filmLoader').addClass('active');
+                             $scope.filmTvGuide.getMoreData();*/
+                            console.log('Load more data');
+                        }
+                    });
+                scene.update();
+            }, 2500);
         };
 
         closeModal() {
