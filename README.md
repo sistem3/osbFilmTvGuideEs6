@@ -15,3 +15,6 @@ production use.
 -   Fetch Polyfill
 
 -   ES6 Promise Polyfill
+
+**Notice:**
+Further development on this project is on hold whilst I work on the [Angular 2 version](https://github.com/sistem3/osbFilmTvGuideNg2).
